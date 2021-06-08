@@ -4,7 +4,6 @@
     "slug": "weather_tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/clear.png",
       "resizeMode": "contain",
@@ -21,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/clear.png",
         "backgroundColor": "#FFFFFF"
       }
     },

@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState,useEffect} from 'react';
-import { StyleSheet, Text, KeyboardAvoidingView, ImageBackground, View } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, ImageBackground, View, Dimensions } from 'react-native';
 import SearchInput from './components/SearchInput'
 import getImageForWeather from './utils/getImageForWeather';
 import getWeatherAPI from './Api'
 export default function App() {
   const [location,setLocation] = useState('Los Angeles')
-  const [weatherStuff,setWeatherStuff] = useState()
+  const [weatherStuff,setWeatherStuff] = useState({
+    "location": "Mount Olympus",
+    "temperature": 69,
+    "weather": "Thunder",
+  })
   const getLocation = (place) => {
 
     setLocation(place)
@@ -23,9 +27,9 @@ export default function App() {
     getWeatherLocation();
   },[location])
   return (
-    <KeyboardAvoidingView style={styles.container} behavior='padding'>
+    <View style={styles.container} >
       <ImageBackground
-      source={getImageForWeather('Sleet')}
+      source={weatherStuff ? getImageForWeather(weatherStuff.weather) : 'Clear'}
       style={styles.imageContainer}
       imageStyle={styles.image}
       >
@@ -38,7 +42,7 @@ export default function App() {
       
       
       </ImageBackground>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -72,5 +76,5 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 18,
-  },
+  }
 });
