@@ -6,7 +6,7 @@ import getImageForWeather from './utils/getImageForWeather';
 import getWeatherAPI from './Api'
 export default function App() {
   const [location,setLocation] = useState('Los Angeles')
-  
+  const [weatherStuff,setWeatherStuff] = useState()
   const getLocation = (place) => {
 
     setLocation(place)
@@ -14,11 +14,14 @@ export default function App() {
   }
   useEffect(() => {
     async function getWeatherLocation(){
-      console.log(location)
-      let locationData = await getWeatherAPI.getLocationId(location)
+      // console.log(location)
+      let locationId = await getWeatherAPI.getLocationId(location)
+      let weatherData = await getWeatherAPI.getWeather(locationId)
+      console.log(weatherData)
+      setWeatherStuff(weatherData)
     }
     getWeatherLocation();
-  })
+  },[location])
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <ImageBackground
@@ -27,9 +30,9 @@ export default function App() {
       imageStyle={styles.image}
       >
         <View style={styles.detailsContainer}>
-          <Text style={[styles.largeText, styles.textStyle]}>{location}</Text>
-          <Text style={[styles.smallText, styles.textStyle]}>Raining Doggos</Text>
-          <Text style={[styles.largeText, styles.textStyle]}>420°</Text>
+          <Text style={[styles.largeText, styles.textStyle]}>{weatherStuff ? weatherStuff.location : location}</Text>
+          <Text style={[styles.smallText, styles.textStyle]}>{weatherStuff ? weatherStuff.weather : 'Raining Doggos'}</Text>
+          <Text style={[styles.largeText, styles.textStyle]}>{weatherStuff ? `${weatherStuff.temperature}°` : 'Temperature'}</Text>
           <SearchInput getLocation={getLocation} placeholder='Search for any city'/>
         </View>
       
