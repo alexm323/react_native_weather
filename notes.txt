@@ -2,4 +2,4 @@ Finished working with the API and am now able to get the weather data
 next up need to handle the rejection when a city cant be found 
 then need to add in the functionality to change the pictures background when it arises 
 
-YOLO
+Need to handle loading screen error
