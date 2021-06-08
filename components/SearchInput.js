@@ -3,6 +3,10 @@ import { StyleSheet, View, TextInput } from 'react-native'
 
 export default function SearchInput({placeholder,getLocation}) {
     const [text, setText] = useState('')
+    const handleSubmit = () => {
+      getLocation(text)
+      setText('')
+    }
     return (
         <View style={styles.container}>
             <TextInput 
@@ -12,6 +16,7 @@ export default function SearchInput({placeholder,getLocation}) {
                 style={styles.textInput}
                 value={text}
                 onChangeText={setText}
+                onSubmitEditing={handleSubmit}
             />
         </View>
     )

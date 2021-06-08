@@ -3,13 +3,22 @@ import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, KeyboardAvoidingView, ImageBackground, View } from 'react-native';
 import SearchInput from './components/SearchInput'
 import getImageForWeather from './utils/getImageForWeather';
-
+import getWeatherAPI from './Api'
 export default function App() {
   const [location,setLocation] = useState('Los Angeles')
-
+  
   const getLocation = (place) => {
+
     setLocation(place)
+
   }
+  useEffect(() => {
+    async function getWeatherLocation(){
+      console.log(location)
+      let locationData = await getWeatherAPI.getLocationId(location)
+    }
+    getWeatherLocation();
+  })
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <ImageBackground
