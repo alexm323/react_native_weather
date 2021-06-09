@@ -4,13 +4,11 @@ import axios from "axios";
 
 class getWeatherAPI {
     static async getLocationId(city){
-        try {
+        
             const res = await axios.get(`https://www.metaweather.com/api/location/search/?query=${city}`)
         // console.log(res.data)
             return res.data[0].woeid
-        } catch (error) {
-            console.log(error)
-        }
+        
         
     }
     static async getWeather(weatherId){
