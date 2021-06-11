@@ -1,10 +1,14 @@
 import React,{useState} from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
 
+// create a search input that allows us to find a location based off of the metaweather api 
 export default function SearchInput({placeholder,getLocation}) {
+    // update the text when a user types 
     const [text, setText] = useState('')
     const handleSubmit = () => {
+      // fire off the function that gets passed down to update the state in app 
       getLocation(text)
+    // make the search blank on submission
       setText('')
     }
     return (

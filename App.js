@@ -7,12 +7,11 @@ import getWeatherAPI from './Api';
 import {Circle} from 'react-native-animated-spinkit';
 
 export default function App() {
+  
   const [isLoaded, setIsLoaded] = useState(false)
   const [location,setLocation] = useState('Los Angeles')
   const [weatherData,setweatherData] = useState({
-    "location": "Mount Olympus",
-    "temperature": 42,
-    "weather": "Hail",
+    weather:'Clear'
   })
   const getLocation = (place) => {
 
@@ -20,7 +19,7 @@ export default function App() {
 
   }
   useEffect(() => {
-    async function getWeatherLocation(){
+    async function getWeatherData(){
       // console.log(location)
       try {
         let locationId = await getWeatherAPI.getLocationId(location)
@@ -30,39 +29,51 @@ export default function App() {
         setIsLoaded(true)
       } catch (error) {
         alert("Invalid City")
+        setweatherData(weatherData)
+        setIsLoaded(true)
       }
       
       
     }
-    getWeatherLocation();
+    getWeatherData();
+    setIsLoaded(false)
   },[location])
   return (
     <View style={styles.container} >
+      {
+        !isLoaded ? 
+        <>
+          <ImageBackground
+            source={getImageForWeather(weatherData.weather)}
+            style={styles.imageContainer}
+            imageStyle={styles.image}
+          > 
+            <View style={styles.spinContainer}>
+              <Circle color='white' size={100}/>
+            </View>
+        </ImageBackground>
+        </>
+        :
+        <>
+          <ImageBackground
+          source={getImageForWeather(weatherData.weather)}
+          style={styles.imageContainer}
+          imageStyle={styles.image}
+          >
+            <View style={styles.detailsContainer}>
+              
+                
+                <Text style={[styles.largeText, styles.textStyle]}>{weatherData.location}</Text>
+                <Text style={[styles.smallText, styles.textStyle]}>{weatherData.weather}</Text>
+                <Text style={[styles.largeText, styles.textStyle]}>{`${weatherData.temperature}°`}</Text>
+                <SearchInput getLocation={getLocation} placeholder='Search for any city'/>
+            </View>
+          </ImageBackground>
+        </>
+      }
       
-      <ImageBackground
-      source={weatherData ? getImageForWeather(weatherData.weather) : 'Clear'}
-      style={styles.imageContainer}
-      imageStyle={styles.image}
-      >
-        <View style={styles.detailsContainer}>
-          {
-            !isLoaded ? 
-              <View style={styles.spinContainer}>
-                <Circle color='white' size={100}/>
-              </View> : 
-            <>
-            <Text style={[styles.largeText, styles.textStyle]}>{weatherData ? weatherData.location : location}</Text>
-            <Text style={[styles.smallText, styles.textStyle]}>{weatherData ? weatherData.weather : 'Raining Doggos'}</Text>
-            <Text style={[styles.largeText, styles.textStyle]}>{weatherData ? `${weatherData.temperature}°` : 'Temperature'}</Text>
-            <SearchInput getLocation={getLocation} placeholder='Search for any city'/>
-            </>
-          }
-          
-          
-        </View>
-      
-      
-      </ImageBackground>
+
+
     </View>
   );
 }
